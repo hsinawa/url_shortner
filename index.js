@@ -34,9 +34,9 @@ app.get("/:shortId", async (req, res) => {
       },
     }
   );
-  if (!res){
+
     res.redirect(entry.redirectURL);
-  }
+  
 
 });
 
