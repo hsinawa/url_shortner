@@ -4,7 +4,7 @@ const urlRoute = require("./routes/url");
 const URL = require("./models/url");
 
 const app = express();
-const PORT = 8001;
+const PORT = 8001 ;
 
 connectToMongoDB("mongodb+srv://awanishmishra:urlshortner@urlshortner.et2lxbh.mongodb.net/urlshortner").then(() =>
   console.log("Mongodb connected")
@@ -12,7 +12,13 @@ connectToMongoDB("mongodb+srv://awanishmishra:urlshortner@urlshortner.et2lxbh.mo
 
 app.use(express.json());
 
+app.get("/",(req,res)=>{
+  res.status(200).send("This is URL Shortner for Avasant");
+});
+
+
 app.use("/url", urlRoute);
+
 
 app.get("/:shortId", async (req, res) => {
   const shortId = req.params.shortId;
@@ -28,7 +34,10 @@ app.get("/:shortId", async (req, res) => {
       },
     }
   );
-  res.redirect(entry.redirectURL);
+  if (!res){
+    res.redirect(entry.redirectURL);
+  }
+
 });
 
-app.listen(PORT, () => console.log(`Server Started at PORT:${PORT}`));
+app.listen(PORT||process.env.PORT, () => console.log(`Server Started at PORT:${PORT}`));
